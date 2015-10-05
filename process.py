@@ -1,5 +1,13 @@
 #!/usr/bin/python3
 
+"""
+Writes an .ffprobe.json file and calls 'ts add-shoo --rm' to immediately stash
+and remove the file.
+
+This is intended to be called by youtube-dl --exec.  It is called after every
+video download.
+"""
+
 import os
 import sys
 import glob
@@ -9,6 +17,7 @@ from youtube_dl.utils import write_json_file, encodeFilename
 
 def main():
 	fname = sys.argv[1]
+	ffprobe_fname = fname.rsplit(".", 1)[0] + '.ffprobe.json'
 	video_id = fname.rsplit(".", 1)[0][-11:]
 
 	sp = subprocess.Popen(
@@ -20,7 +29,7 @@ def main():
 	probeData = json.loads(out.decode().strip())
 	if probeData.get('error'):
 		raise RuntimeError('ffprobe metadata contained error: %r' % (probeData.get('error'),))
-	write_json_file(probeData, ffprobe)
+	write_json_file(probeData, ffprobe_fname)
 
 	files = glob.glob('*%s*' % (video_id,))
 	subprocess.check_call(['ts', 'add-shoo', '--rm', '-c', '-d'] + files)
