@@ -33,10 +33,11 @@ def main():
 	write_json_file(probeData, ffprobe_fname)
 
 	files = glob.glob('*%s*' % (video_id,))
-	video_title = list(f for f in files if f.endswith('.info.json'))[0].rsplit('.', 2)[0]
-	subprocess.check_call(['7zr', 'a', '-m0=lzma2', '-r', video_title + '.response_dump.7z', 'response_dump_' + video_id])
+	video_title_plus_id = list(f for f in files if f.endswith('.info.json'))[0].rsplit('.', 2)[0]
+	response_dump_7z = video_title_plus_id + '.response_dump.7z'
+	subprocess.check_call(['7zr', 'a', '-m0=lzma2', '-r', response_dump_7z, 'response_dump_' + video_id])
 	shutil.rmtree('response_dump_' + video_id)
-	subprocess.check_call(['ts', 'add-shoo', '--rm', '-c', '-d'] + files)
+	subprocess.check_call(['ts', 'add-shoo', '--rm', '-c', '-d'] + files + [response_dump_7z])
 
 if __name__ == '__main__':
 	main()
