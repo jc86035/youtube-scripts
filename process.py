@@ -38,7 +38,8 @@ def main():
 	subprocess.check_call(['7zr', 'a', '-m0=lzma2', '-r', response_dump_7z, 'response_dump_' + video_id])
 	shutil.rmtree('response_dump_' + video_id)
 	files = glob.glob('*%s*' % (video_id,))
-	subprocess.check_call(['ts', 'add-shoo', '--rm', '-c', '-d'] + files)
+	# 12h timeout because googleapis sometimes seems to get stuck forever
+	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files)
 
 if __name__ == '__main__':
 	main()
