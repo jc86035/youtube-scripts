@@ -6,6 +6,10 @@ and remove the file.
 
 This is intended to be called by youtube-dl --exec.  It is called after every
 video download.
+
+We do the ffprobe here ourselves instead of using our patched youtube-dl
+ffprobe functionality because youtube-dl runs this postprocessing command
+before ffprobe.
 """
 
 import os
@@ -15,6 +19,12 @@ import json
 import shutil
 import subprocess
 from youtube_dl.utils import write_json_file, encodeFilename
+
+def try_makedirs(p):
+	try:
+		os.makedirs(p)
+	except OSError:
+		pass
 
 def main():
 	fname = sys.argv[1]
@@ -37,6 +47,19 @@ def main():
 	response_dump_7z = video_title_plus_id + '.response_dump.7z'
 	subprocess.check_call(['7zr', 'a', '-m0=lzma2', '-r', response_dump_7z, 'response_dump_' + video_id])
 	shutil.rmtree('response_dump_' + video_id)
+
+	# Because Google Drive throttles the number of files we can upload per minute,
+	# and because terastash doesn't yet support bundling multiple files into one
+	# Google Drive file, move the .jpg thumbnail and the .response_dump.7z to another
+	# folder that we'll handle later.
+	inessential_dest = os.getcwd().replace('/YouTube/', '/InessentialYouTube/', 1)
+	try_makedirs(inessential_dest)
+	thumbnail_file = glob.glob('*%s.jpg' % (video_id,))[:1]
+	if thumbnail_file:
+		thumbnail_file = thumbnail_file[0]
+		os.replace(thumbnail_file, os.path.join(inessential_dest, thumbnail_file))
+	os.replace(response_dump_7z, os.path.join(inessential_dest, response_dump_7z))
+
 	files = glob.glob('*%s*' % (video_id,))
 	# 12h timeout because googleapis sometimes seems to get stuck forever
 	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files)
