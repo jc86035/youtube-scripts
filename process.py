@@ -64,5 +64,6 @@ def main():
 	# 12h timeout because googleapis sometimes seems to get stuck forever
 	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files)
 
+
 if __name__ == '__main__':
 	main()
