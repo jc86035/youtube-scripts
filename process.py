@@ -45,7 +45,7 @@ def main():
 	files = glob.glob('*%s*' % (video_id,))
 	video_title_plus_id = list(f for f in files if f.endswith('.info.json'))[0].rsplit('.', 2)[0]
 	response_dump_7z = video_title_plus_id + '.response_dump.7z'
-	subprocess.check_call(['7zr', 'a', '-m0=lzma2', '-r', response_dump_7z, 'response_dump_' + video_id])
+	subprocess.check_call(['7zr', 'a', '-m0=lzma2', response_dump_7z, 'response_dump_' + video_id])
 	shutil.rmtree('response_dump_' + video_id)
 
 	# Because Google Drive throttles the number of files we can upload per minute,
