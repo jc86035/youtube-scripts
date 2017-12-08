@@ -70,7 +70,13 @@ def main():
 
 	files = glob.glob('*%s*' % (video_id,))
 	# 12h timeout because googleapis sometimes seems to get stuck forever
-	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files)
+	#
+	# Use stderr=subprocess.STDOUT to avoid sharing our stderr with node,
+	# because if stderr is redirected to stdout and stdout is piped
+	# somewhere, node will put both into non-blocking mode and break
+	# youtube-dl, resulting in errors like
+	# `BlockingIOError: [Errno 11] write could not complete without blocking`
+	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files, stderr=subprocess.STDOUT)
 
 
 if __name__ == '__main__':
