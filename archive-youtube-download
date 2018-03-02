@@ -68,7 +68,15 @@ def main():
 	os.makedirs(inessential_dest, exist_ok=True)
 	os.replace(response_dump_7z, os.path.join(inessential_dest, response_dump_7z))
 
-	files = glob.glob('*%s*' % (video_id,))
+	files       = glob.glob('*%s*' % (video_id,))
+	video_files = list(f for f in files if f.endswith('.webm') or f.endswith('.mp4'))
+	assert len(video_files) == 1, video_files
+	video_file  = video_files[0]
+	# Upload video file last because presence of video file is used to determine
+	# whether YouTube download is necessary in the future.
+	files.remove(video_file)
+	files.append(video_file)
+
 	# 12h timeout because googleapis sometimes seems to get stuck forever
 	#
 	# Use stderr=subprocess.STDOUT to avoid sharing our stderr with node,
