@@ -53,7 +53,7 @@ def main():
 	probe_data = json.loads(out.decode().strip())
 	if probe_data.get('error'):
 		raise RuntimeError('ffprobe metadata contained error: %r' % (probe_data.get('error'),))
-	with open(ffprobe_fname, "wb") as f:
+	with open(ffprobe_fname, "w") as f:
 		f.write(json.dumps(probe_data))
 
 	files               = glob.glob('*%s*' % (video_id,))
