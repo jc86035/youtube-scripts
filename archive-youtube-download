@@ -25,7 +25,7 @@ import glob
 import json
 import shutil
 import subprocess
-from youtube_dl.utils import write_json_file, encodeFilename
+# Warning: do not import youtube_dl modules because it does a `ts ls -j` on import
 
 def main():
 	fname         = sys.argv[1]
@@ -42,7 +42,8 @@ def main():
 			'-show_error',
 			'-show_chapters',
 			'-show_program_version',
-			encodeFilename(fname, for_subprocess=True)
+			'--',
+			fname
 		],
 		stdout=subprocess.PIPE,
 		stderr=subprocess.PIPE,
@@ -52,7 +53,8 @@ def main():
 	probe_data = json.loads(out.decode().strip())
 	if probe_data.get('error'):
 		raise RuntimeError('ffprobe metadata contained error: %r' % (probe_data.get('error'),))
-	write_json_file(probe_data, ffprobe_fname)
+	with open(ffprobe_fname, "wb") as f:
+		f.write(json.dumps(probe_data))
 
 	files               = glob.glob('*%s*' % (video_id,))
 	video_title_plus_id = list(f for f in files if f.endswith('.info.json'))[0].rsplit('.', 2)[0]
