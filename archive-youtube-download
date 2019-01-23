@@ -6,8 +6,10 @@ after every successful YouTube download.
 
 Takes one argument: the filename for the video.
 
-1. Writes an .ffprobe.json file.
-2. Runs `ts add-shoo --rm` with a 12 hour timeout to add the video file and
+1. Removes the .annotations.xml file because it's redundant with the
+   "annotations" key in .info.json
+2. Adds _ffprobe key to .info.json
+3. Runs `ts add-shoo --rm` with a 12 hour timeout to add the video file and
    related files to terastash, then removes them from the local disk.
 
 We do the ffprobe here ourselves instead of using our patched youtube-dl
@@ -23,9 +25,11 @@ import subprocess
 # Warning: do not import youtube_dl modules because it does a `ts ls -j` on import
 
 def main():
-	fname         = sys.argv[1]
-	ffprobe_fname = fname.rsplit(".", 1)[0] + '.ffprobe.json'
-	video_id      = fname.rsplit(".", 1)[0][-11:]
+	fname      = sys.argv[1]
+	info_fname = fname.rsplit(".", 1)[0] + '.info.json'
+	video_id   = fname.rsplit(".", 1)[0][-11:]
+
+	os.remove(glob.glob('*-%s.annotations.xml' % (video_id,)))
 
 	sp = subprocess.Popen(
 		[
@@ -48,11 +52,12 @@ def main():
 	probe_data = json.loads(out.decode().strip())
 	if probe_data.get('error'):
 		raise RuntimeError('ffprobe metadata contained error: %r' % (probe_data.get('error'),))
-	with open(ffprobe_fname, "w") as f:
-		f.write(json.dumps(probe_data))
 
-	files               = glob.glob('*%s*' % (video_id,))
-	video_title_plus_id = list(f for f in files if f.endswith('.info.json'))[0].rsplit('.', 2)[0]
+	with open(info_fname, "r") as f:
+		info = json.load(f)
+	info["_ffprobe"] = probe_data
+	with open(info_fname, "w") as f:
+		json.dump(info, f)
 
 	files       = glob.glob('*%s*' % (video_id,))
 	video_files = list(f for f in files if f.endswith('.webm') or f.endswith('.mp4'))
