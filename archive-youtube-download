@@ -26,22 +26,22 @@ import subprocess
 
 def main():
 	fname      = sys.argv[1]
-	info_fname = fname.rsplit(".", 1)[0] + '.info.json'
+	info_fname = fname.rsplit(".", 1)[0] + ".info.json"
 	video_id   = fname.rsplit(".", 1)[0][-11:]
 
-	os.remove(glob.glob('*-%s.annotations.xml' % (video_id,)))
+	os.remove(glob.glob("*-%s.annotations.xml" % (video_id,)))
 
 	sp = subprocess.Popen(
 		[
-			'ffprobe',
-			'-loglevel', 'quiet',
-			'-print_format', 'json',
-			'-show_format',
-			'-show_streams',
-			'-show_error',
-			'-show_chapters',
-			'-show_program_version',
-			'--',
+			"ffprobe",
+			"-loglevel", "quiet",
+			"-print_format", "json",
+			"-show_format",
+			"-show_streams",
+			"-show_error",
+			"-show_chapters",
+			"-show_program_version",
+			"--",
 			fname
 		],
 		stdout=subprocess.PIPE,
@@ -50,8 +50,8 @@ def main():
 	)
 	out, err   = sp.communicate()
 	probe_data = json.loads(out.decode().strip())
-	if probe_data.get('error'):
-		raise RuntimeError('ffprobe metadata contained error: %r' % (probe_data.get('error'),))
+	if probe_data.get("error"):
+		raise RuntimeError("ffprobe metadata contained error: %r" % (probe_data.get("error"),))
 
 	with open(info_fname, "r") as f:
 		info = json.load(f)
@@ -59,8 +59,8 @@ def main():
 	with open(info_fname, "w") as f:
 		json.dump(info, f)
 
-	files       = glob.glob('*%s*' % (video_id,))
-	video_files = list(f for f in files if f.endswith('.webm') or f.endswith('.mp4'))
+	files       = glob.glob("*%s*" % (video_id,))
+	video_files = list(f for f in files if f.endswith(".webm") or f.endswith(".mp4"))
 	assert len(video_files) == 1, video_files
 	video_file  = video_files[0]
 	# Upload video file last because presence of video file is used to determine
@@ -75,8 +75,8 @@ def main():
 	# somewhere, node will put both into non-blocking mode and break
 	# youtube-dl, resulting in errors like
 	# `BlockingIOError: [Errno 11] write could not complete without blocking`
-	subprocess.check_call(['timeout', '12h', 'ts', 'add-shoo', '--rm', '-c', '-d'] + files, stderr=subprocess.STDOUT)
+	subprocess.check_call(["timeout", "12h", "ts", "add-shoo", "--rm", "-c", "-d"] + files, stderr=subprocess.STDOUT)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()
