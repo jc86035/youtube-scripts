@@ -29,7 +29,9 @@ def main():
 	info_fname = fname.rsplit(".", 1)[0] + ".info.json"
 	video_id   = fname.rsplit(".", 1)[0][-11:]
 
-	os.remove(glob.glob("*-%s.annotations.xml" % (video_id,)))
+	# Redundant with the annotations inside .info.json
+	for f in glob.glob("*-%s.annotations.xml" % (video_id,)):
+		os.remove(f)
 
 	sp = subprocess.Popen(
 		[
