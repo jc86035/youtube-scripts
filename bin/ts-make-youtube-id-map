@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Generate a tab-delimited two-column file of
+# YOUTUBE_ID	TS_YOUTUBE_FOLDER
+# of every YouTube video we have.
+
+set -eu
+
+# | grep -v to filter out partially-downloaded/unmuxed videos
+#
+# | uniqify because a folder may have both an .mp4 and .webm,
+# (e.g. ROUEb0Qg1mc in 24juan68/) or the same video id with
+# multiple titles (e.g. ZSz8cCk9XrE in BMWUSA/)
+# and these duplicates are not necessarily on adjacent lines
+# in the `ts ls -j` listing.
+
+cd ~/YouTube
+(for i in `ts ls -j .`; do
+	ts ls -j "$i" | grep -P '\.(mp4|webm|flv|mkv|video)$' | grep -v -P '\.f[0-9]{1,3}\.(webm|mp4)$' | sed -r 's/.*?(.{11})\.[^\.]+$/\1/g' | sed -r "s/$/\t$i/g"
+done) | uniqify | tee ~/youtube-id-map

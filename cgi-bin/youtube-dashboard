@@ -1,0 +1,39 @@
+#!/run/current-system/sw/bin/zsh
+
+# Use zsh above because bash doesn't find the UTF-8 locales on NixOS which tmux needs
+
+set -eu -o pipefail
+
+echo "Content-Type: text/html; charset=utf-8"
+echo
+echo "<style>"
+echo "\
+body {
+	font-family: system-ui, sans-serif;
+}
+h1 {
+	font-size: 1.25em;
+	margin: 0;
+}
+pre {
+	display: inline-block;
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+"
+echo "</style>"
+
+count=$(tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | wc -l)
+
+echo "$count downloaders running. Press F5 to refresh 🤷️"
+echo "<hr>"
+
+tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
+while read line; do
+	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
+	identifier=${session_name/YouTube-/}
+	echo "<h1>$identifier</h1>"
+	echo "<pre>"
+	tmux capture-pane -p -t "$session_name"
+	echo "</pre>"
+done

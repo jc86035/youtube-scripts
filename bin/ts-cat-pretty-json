@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ts cat "$1" | pretty-json

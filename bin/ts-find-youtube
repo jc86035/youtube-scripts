@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# `ts find` apparently leaks and runs out of memory, so use this hack.
+
+set -eu
+
+ts ls -n YouTube -j "" |\
+while read i; do
+	ts ls -n YouTube -j -- "$i" | sed -e "s/^/$i\//"
+done

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+
+ts-find-youtube | grep -P '\.info\.json$' | gzip > ~/youtube-info-json-files.gz
+zcat ~/youtube-info-json-files.gz \
+	| parallel --will-cite -j 12 -n 200 -d '\n' "timeout -k 25m 20m ts -n YouTube cat -- {} | json-stream-one-line-per-json" \
+	| youtube_info_json_summarizer \
+	>  ~/info-json-summary \
+	2> ~/info-json-summary.errors

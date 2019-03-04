@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# Return exit code 0 is safe to start on a scaleway, else
+# non-0.
+
+max=4
+if [[ $(hostname) = "paris2" ]]; then
+	max=9
+fi
+
+[[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
+[[ $(pgrep 'node' | wc -l) -lt $max ]]
+
+kb_disk_free=$(/run/current-system/sw/bin/df / | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
+[[ $kb_disk_free -gt 20000000 ]]

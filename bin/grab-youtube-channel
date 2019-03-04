@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+. ~/.zshrc
+
+i=$1
+MAX_VIDEOS=$2
+
+if [ "$MAX_VIDEOS" = "" ]; then
+	MAX_VIDEOS=200
+fi
+
+mkdir -p ~/YouTube/$i
+cd ~/YouTube/$i
+ts mkdir .
+
+# The name of the session is a lock that prevents multiple downloaders from working
+# on the same folder.
+tmux new -s "YouTube-$i" -x 240 -y 30 -d "\
+ssh -p 904 at@scale8  '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
+ssh -p 904 at@scale9  '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
+ssh -p 904 at@scale10 '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
+ssh -p 904 at@scale11 '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
+                                                   zsh -i -c 'mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code'; sleep 5"

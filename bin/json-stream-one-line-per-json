@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+# Takes a stream of JSON objects as input, outputs a stream of JSON objects
+# with exactly one object per line.
+
+import sys
+import json
+from json.decoder import WHITESPACE
+
+# https://stackoverflow.com/questions/6886283/how-i-can-i-lazily-read-multiple-json-values-from-a-file-stream-in-python
+def decode_multiple_json(string_or_fp, cls=json.JSONDecoder, **kwargs):
+	if isinstance(string_or_fp, file):
+		string = string_or_fp.read()
+	else:
+		string = str(string_or_fp)
+
+	decoder = cls(**kwargs)
+	idx = WHITESPACE.match(string, 0).end()
+	while idx < len(string):
+		obj, end = decoder.raw_decode(string, idx)
+		yield obj
+		idx = WHITESPACE.match(string, end).end()
+
+assert list(decode_multiple_json('{}[][4]{}')) == [{}, [], [4], {}]
+
+for obj in decode_multiple_json(sys.stdin.read()):
+	print json.dumps(obj)
