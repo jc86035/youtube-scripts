@@ -13,4 +13,4 @@ ts mkdir .
 
 # The name of the session is a lock that prevents multiple downloaders from working
 # on the same folder.
-tmux new -s "YouTube-$i" -x 240 -y 30 -d "zsh -i -c 'mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && tube-with-mtime -- '$url'; code=\$?; rm -rf ~/YouTube/$i; exit \$code'; sleep 5"
+tmux new -s "YouTube-$i" -x 240 -y 30 -d ". ~/.zshrc && cd ~/YouTube/$i && tube-with-mtime -- '$url'; sleep 5"
