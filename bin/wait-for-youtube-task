@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+task=$1
+
+while tmux ls | grep -q -P "^YouTube-${task}:"; do
+	sleep 5
+done
