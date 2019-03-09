@@ -8,13 +8,7 @@ for i in $(ts ls -j ~/YouTube | shuf); do
 		echo "Skipping $i which has $file_count files"
 		continue
 	fi
-	num_downloaders=$(tmux ls | grep -P '^YouTube-' | wc -l)
-	while [[ $num_downloaders -ge 25 ]]; do
-		echo "Downloading: $(tmux ls | grep -P '^YouTube-' | grep -o -P '^YouTube-[^:]+' | sed -r 's,^YouTube-,,g' | tr '\n' ' ')"
-		sleep 3
-		num_downloaders=$(tmux ls | grep -P '^YouTube-' | wc -l)
-	done
 	echo "Starting $i"
 	grab-youtube-channel "$i" || true
-	sleep 0.05
+	wait-for-youtube-task "$i"
 done

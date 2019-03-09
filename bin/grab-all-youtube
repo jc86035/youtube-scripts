@@ -8,13 +8,7 @@ enable -f /run/current-system/sw/lib/bash/sleep sleep
 # gamerqq - only wanted 1 video
 
 for i in $(ts ls -j ~/YouTube | grep -v -P '^(moviematcanada|revorocks123|gamerqq)$' | shuf); do
-	num_downloaders=$(tmux ls | grep -P '^YouTube-' | wc -l)
-	while [[ $num_downloaders -ge 25 ]]; do
-		echo "Downloading: $(tmux ls | grep -P '^YouTube-' | grep -o -P '^YouTube-[^:]+' | sed -r 's,^YouTube-,,g' | tr '\n' ' ')"
-		sleep $[($RANDOM % 20) + 1]
-		num_downloaders=$(tmux ls | grep -P '^YouTube-' | wc -l)
-	done
 	echo "Starting $i"
 	grab-youtube-channel "$i" || true
-	sleep 0.05
+	wait-for-youtube-task "$i"
 done
