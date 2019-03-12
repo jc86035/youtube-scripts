@@ -4,6 +4,11 @@
 
 set -eu -o pipefail
 
+# https://stackoverflow.com/a/12873723
+function html_escape() {
+    sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
+}
+
 echo "Content-Type: text/html; charset=utf-8"
 echo
 echo "<style>"
@@ -34,6 +39,6 @@ while read line; do
 	identifier=${session_name/YouTube-/}
 	echo "<h1>$identifier</h1>"
 	echo "<pre>"
-	tmux capture-pane -p -t "$session_name"
+	tmux capture-pane -p -t "$session_name" | html_escape
 	echo "</pre>"
 done
