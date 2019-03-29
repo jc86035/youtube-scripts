@@ -33,11 +33,20 @@ count=$(tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' 
 echo "$count downloaders running. Press F5 to refresh 🤷️"
 echo "<hr>"
 
+function url_for_identifier() {
+	if [[ $1 == UC?????????????????????? ]]; then
+		echo "https://www.youtube.com/channel/$1/videos"
+	else
+		echo "https://www.youtube.com/user/$1/videos"
+	fi
+}
+
 tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
 while read line; do
 	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
 	identifier=${session_name/YouTube-/}
-	echo "<h1>$identifier</h1>"
+	url=$(url_for_identifier "$identifier")
+	echo "<h1><a href=\"$url\">$identifier</a></h1>"
 	echo "<pre>"
 	tmux capture-pane -p -t "$session_name" | html_escape
 	echo "</pre>"
