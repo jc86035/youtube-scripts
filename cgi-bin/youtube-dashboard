@@ -9,6 +9,10 @@ function html_escape() {
     sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
 }
 
+function linkify_ids() {
+	sed -r 's,^\[youtube\] (.{11}),[youtube] <a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a>,g'
+}
+
 echo "Content-Type: text/html; charset=utf-8"
 echo
 echo "<style>"
@@ -63,6 +67,6 @@ while read line; do
 	url=$(url_for_identifier "$identifier")
 	echo "<h1><a href=\"$url\" target=\"_blank\">$identifier</a></h1>"
 	echo "<pre>"
-	tmux capture-pane -p -t "$session_name" | html_escape
+	tmux capture-pane -p -t "$session_name" | html_escape | linkify_ids
 	echo "</pre>"
 done
