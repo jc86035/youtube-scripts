@@ -5,7 +5,7 @@ set -eu
 # Return exit code 0 is safe to start on a scaleway, else
 # non-0.
 
-max=4
+max=5
 if [[ $(hostname) = "paris2" ]]; then
 	max=9
 fi
