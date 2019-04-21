@@ -21,8 +21,17 @@ import os
 import sys
 import glob
 import json
+import socket
 import subprocess
 # Warning: do not import youtube_dl modules because it does a `ts ls -j` on import
+
+def statsd_counter_increment(name, value):
+	packet = name.encode() + b":" + str(value).encode() + b"|c"
+	sock   = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	sock.sendto(packet, ("127.0.0.1", 8125))
+
+def file_size(fname):
+	return os.stat(fname).st_size
 
 def main():
 	fname      = sys.argv[1]
@@ -70,6 +79,11 @@ def main():
 	files.remove(video_file)
 	files.append(video_file)
 
+	total_bytes = sum(file_size(fname) for fname in files)
+
+	statsd_counter_increment("youtube_videos_grabbed", 1)
+	statsd_counter_increment("youtube_bytes_grabbed", total_bytes)
+
 	# 12h timeout because googleapis sometimes seems to get stuck forever
 	#
 	# Use stderr=subprocess.STDOUT to avoid sharing our stderr with node,
@@ -78,6 +92,9 @@ def main():
 	# youtube-dl, resulting in errors like
 	# `BlockingIOError: [Errno 11] write could not complete without blocking`
 	subprocess.check_call(["timeout", "12h", "ts", "add-shoo", "--rm", "-c", "-d"] + files, stderr=subprocess.STDOUT)
+
+	statsd_counter_increment("youtube_videos_stashed", 1)
+	statsd_counter_increment("youtube_bytes_stashed", total_bytes)
 
 
 if __name__ == "__main__":
