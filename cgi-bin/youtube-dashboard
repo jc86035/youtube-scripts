@@ -65,7 +65,7 @@ while read line; do
 	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
 	identifier=${session_name/YouTube-/}
 	url=$(url_for_identifier "$identifier")
-	echo "<h1><a href=\"$url\" target=\"_blank\">$identifier</a></h1>"
+	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a></h1>"
 	echo "<pre>"
 	tmux capture-pane -p -t "$session_name" | html_escape | linkify_ids
 	echo "</pre>"
