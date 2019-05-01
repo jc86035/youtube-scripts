@@ -35,6 +35,16 @@ get-new() {
 		suffix=""
 	fi
 	tube-with-mtime "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" 2>&1 | tee "$temp_log"
+	# Some say "your country", others say "video is available in" with
+	# a country list; 14UBUyF16Nk says "This video is not available"
+	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
+	# are completely geoblocked and show "Downloading 0 videos"
+	COMPLAINT='(your country|video is available in|video is not available|Downloading 0 videos)'
+	if grep -iqP "$COMPLAINT" "$temp_log"; then
+		echo
+		echo "Saw complaints about country, grabbing again through proxies..."
+		tube-with-mtime --proxy socks5://paris2.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # US
+	fi
 	# Even though we have UC?????????????????????? or PL* above, we might still
 	# have a UC* or PL* username instead, so try again as a user if needed.
 	if [[ "$type" != "user/" && (
