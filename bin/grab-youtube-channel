@@ -23,4 +23,4 @@ tmux new -s "YouTube-$i" -x 240 -y 30 -d "\
 ssh -p 904 at@scale9  '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
 ssh -p 904 at@scale10 '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
 ssh -p 904 at@scale11 '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' || \
-                                                   zsh -i -c 'mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code'; sleep 5) 2>&1 | tee /var/www/html/logs/dl/$i/$date.log"
+                                                   zsh -i -c 'mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code'; sleep 5) 2>&1 | tee >(strip-youtube-dl-progress > /var/www/html/logs/dl/$i/$date.log)"

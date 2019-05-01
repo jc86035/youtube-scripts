@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# youtube-dl log output has a lot of \r[download] ...\r[download] on one line;
+# keep just the last [download] ...
+exec sed -u -r 's/^\r\[download\] .+\r(\[download\] [^\r]+)$/\1/g'
