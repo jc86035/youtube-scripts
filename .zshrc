@@ -43,7 +43,7 @@ get-new() {
 	if grep -iqP "$COMPLAINT" "$temp_log"; then
 		echo
 		echo "Saw complaints about country, grabbing again through proxies..."
-		tube-with-mtime --proxy socks5://paris2.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # US
+		tube-with-mtime --proxy socks5://paris2.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # Canada (sometimes detected as US)
 	fi
 	# Even though we have UC?????????????????????? or PL* above, we might still
 	# have a UC* or PL* username instead, so try again as a user if needed.
