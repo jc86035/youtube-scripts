@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for i in $(tmux ls | cut -d : -f 1); do
+	tmux send-keys -t $i C-c
+done
