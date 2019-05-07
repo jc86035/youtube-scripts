@@ -4,7 +4,21 @@ export PATH="$HOME/bin:$PATH"
 export TERASTASH_CASSANDRA_HOST=paris2.wg
 
 # Use -4 to stick with IPv4 because YouTube blocks a lot of IPv6 ranges https://github.com/rg3/youtube-dl/issues/5138
-youtube_dl_args=(-4 --sleep-interval 1 --socket-timeout 10 --title --continue --retries 30 --write-info-json --write-thumbnail --write-annotations --all-subs -f 'bestvideo[ext=webm]+bestaudio[ext=webm]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best' --ignore-errors)
+youtube_dl_args=(\
+	--user-agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
+	--force-ipv4
+	--sleep-interval 1
+	--socket-timeout 20
+	--title
+	--continue
+	--retries 30
+	--write-info-json
+	--write-thumbnail
+	--write-annotations
+	--all-subs
+	-f 'bestvideo[ext=webm]+bestaudio[ext=webm]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best'
+	--ignore-errors
+)
 
 tube-with-mtime() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
