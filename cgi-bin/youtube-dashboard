@@ -84,7 +84,7 @@ while read line; do
 	echo "</pre>"
 done
 
-scripts=$(ps w | grep -P '[b]in/grab-.*-youtube$' | cut -d / -f 6 | sort)
+scripts=$(ps w | grep -P '[b]in/grab-.*-youtube$' | sort -n)
 
 echo "<hr>\
 
