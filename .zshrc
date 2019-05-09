@@ -9,7 +9,7 @@ youtube_dl_args=(\
 	--force-ipv4
 	--sleep-interval 1
 	--socket-timeout 20
-	--title
+	-o "%(title)s-%(id)s.%(ext)s"
 	--continue
 	--retries 30
 	--write-info-json
