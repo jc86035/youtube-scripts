@@ -1,4 +1,4 @@
-g#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 enable -f /run/current-system/sw/lib/bash/sleep sleep
 
