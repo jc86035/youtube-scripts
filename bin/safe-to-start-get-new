@@ -6,8 +6,8 @@ set -eu
 # non-0.
 
 max=5
-if [[ $(hostname) = "paris2" ]]; then
-	max=9
+if [[ $(hostname) = "finhdd1" ]]; then
+	max=27
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
