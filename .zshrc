@@ -53,7 +53,7 @@ get-new() {
 	# a country list; 14UBUyF16Nk says "This video is not available"
 	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
 	# are completely geoblocked and show "Downloading 0 videos"
-	COMPLAINT='(your country|video is available in|video is not available|Downloading 0 videos)'
+	COMPLAINT='DISABLED(your country|video is available in|video is not available|Downloading 0 videos)'
 	if grep -iqP "$COMPLAINT" "$temp_log"; then
 		echo
 		echo "Saw complaints about country, grabbing again through proxies..."
