@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 export PATH="$HOME/bin:$PATH"
-export TERASTASH_CASSANDRA_HOST=paris2.wg
+export TERASTASH_CASSANDRA_HOST=finssd1.wg
 
 # Use -4 to stick with IPv4 because YouTube blocks a lot of IPv6 ranges https://github.com/rg3/youtube-dl/issues/5138
 youtube_dl_args=(\
@@ -57,7 +57,7 @@ get-new() {
 	if grep -iqP "$COMPLAINT" "$temp_log"; then
 		echo
 		echo "Saw complaints about country, grabbing again through proxies..."
-		tube-with-mtime --proxy socks5://paris2.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # Canada (geolocated to US by YouTube)
+		tube-with-mtime --proxy socks5://finssd1.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # Canada (geolocated to US by YouTube)
 	fi
 	# Even though we have UC?????????????????????? or PL* above, we might still
 	# have a UC* or PL* username instead, so try again as a user if needed.
