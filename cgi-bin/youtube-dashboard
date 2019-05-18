@@ -35,12 +35,18 @@ echo "Content-Type: text/html; charset=utf-8
 
 body {
 	font-family: system-ui, sans-serif;
+	background-color: #000;
+	color: #0f0;
+}
+
+a {
+	color: #fff;
 }
 
 hr {
     border: none;
     height: 1px;
-    background-color: #e1e1e1;
+    background-color: #0f0;
 }
 
 h1 {
@@ -54,13 +60,13 @@ a {
 
 pre {
 	display: inline-block;
-	border: 1px dotted #ccc;
+	border: 1px dotted #0f0;
 	padding: 5px;
 	margin: 0 0 1em 0;
 }
 
 span.error {
-	color: #dd0000;
+	color: #ff0000;
 }
 
 span.download {
