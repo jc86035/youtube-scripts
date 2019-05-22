@@ -52,7 +52,8 @@ a {
 }
 
 pre {
-	font-size: 12px;
+	font-size: 13px;
+	font-family: sans-serif;
 	background-color: #fff;
 	width: calc(100% - 12px);
 	display: inline-block;
