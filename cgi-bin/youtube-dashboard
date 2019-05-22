@@ -54,7 +54,7 @@ a {
 
 pre {
 	font-size: 13px;
-	font-family: sans-serif;
+	font-family: system-ui, sans-serif;
 	background-color: #fff;
 	width: calc(100% - 12px);
 	display: inline-block;
