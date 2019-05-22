@@ -14,7 +14,8 @@ function linkify_log() {
 	sed -r 's,^Skipping (.{11}) because,Skipping <a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a> because,g' |\
 	sed -r 's,^\[youtube:playlist\] (.{24}):,[youtube:playlist] <a href="https://www.youtube.com/playlist?list=\1" target="_blank">\1</a>:,g' |\
 	sed -r 's,^(ERROR: .*)$,<span class="error">\1</span>,g' |\
-	sed -r 's,(^\[download\] Downloading video [0-9]+ of [0-9]+)$,<span class="download">\1</span>,g'
+	sed -r 's,(^\[download\] Downloading video [0-9]+ of [0-9]+)$,<span class="download">\1</span>,g' |\
+	sed -r 's, of ([\.0-9]+GiB) , of <span class="large-video-size">\1</span> ,g'
 }
 
 function url_for_identifier() {
@@ -65,6 +66,12 @@ span.error {
 
 span.download {
 	font-weight: bold;
+}
+
+span.large-video-size {
+	font-weight: bold;
+	background-color: purple;
+	color: white;
 }
 
 </style>
