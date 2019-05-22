@@ -36,15 +36,9 @@ echo "Content-Type: text/html; charset=utf-8
 <style>
 
 body {
-	background-color: white;
+	background-color: #ddd;
 	color: black;
 	font-family: system-ui, sans-serif;
-}
-
-hr {
-    border: none;
-    height: 1px;
-    background-color: #e1e1e1;
 }
 
 h1 {
@@ -58,8 +52,10 @@ a {
 }
 
 pre {
+	font-size: 12px;
+	background-color: #fff;
+	width: calc(100% - 12px);
 	display: inline-block;
-	border: 1px dotted #ccc;
 	padding: 5px;
 	margin: 0 0 1em 0;
 }
@@ -80,8 +76,7 @@ span.large-video-size {
 
 </style>
 
-$(echo $sessions | wc -l) downloaders running. Press F5 to refresh 🤷️
-<hr>
+$(echo $sessions | wc -l) downloaders running. Press F5 to refresh 🤷️<br><br>
 "
 
 tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
@@ -97,18 +92,16 @@ done
 
 scripts=$(ps w | grep -P '[b]in/grab-.*-youtube' | sort -n)
 
-echo "<hr>\
-
-$(echo $scripts | wc -l) scripts running:<br>
+echo "
+<h1>$(echo $scripts | wc -l) scripts running</h1>
 
 <pre>
 $(echo $scripts | html_escape)
 </pre>
 "
 
-echo "<hr>\
-
-Task distribution:<br>
+echo "
+<h1>Task distribution</h1>
 
 <pre>"
 for i in scale8 scale9 scale10 scale11 finhdd1; do
