@@ -12,7 +12,7 @@ function html_escape() {
 function linkify_log() {
 	sed -r 's,^\[youtube\] (.{11}),[youtube] <a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a>,g' |\
 	sed -r 's,^Skipping (.{11}) because,Skipping <a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a> because,g' |\
-	sed -r 's,-(.{11})(\.jpg|\.annotations\.xml|\.info\.json|(\.f[0-9]+\.)(webm|mp4|m4a)),-<a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a>\2,g' |\
+	sed -r 's,-(.{11})(\.jpg|\.annotations\.xml|\.info\.json|(\.f[0-9]+)?\.(webm|mp4|m4a)),-<a href="https://www.youtube.com/watch?v=\1" target="_blank">\1</a>\2,g' |\
 	sed -r 's,^\[youtube:playlist\] (.{24}):,[youtube:playlist] <a href="https://www.youtube.com/playlist?list=\1" target="_blank">\1</a>:,g' |\
 	sed -r 's,^(ERROR: .*)$,<span class="error">\1</span>,g' |\
 	sed -r 's,(^\[download\] Downloading video [0-9]+ of [0-9]+)$,<span class="download">\1</span>,g' |\
