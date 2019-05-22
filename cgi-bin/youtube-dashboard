@@ -16,7 +16,8 @@ function linkify_log() {
 	sed -r 's,^\[youtube:playlist\] (.{24}):,[youtube:playlist] <a href="https://www.youtube.com/playlist?list=\1" target="_blank">\1</a>:,g' |\
 	sed -r 's,^(ERROR: .*)$,<span class="error">\1</span>,g' |\
 	sed -r 's,(^\[download\] Downloading video [0-9]+ of [0-9]+)$,<span class="download">\1</span>,g' |\
-	sed -r 's, of ([\.0-9]+GiB) , of <span class="large-video-size">\1</span> ,g'
+	sed -r 's, of ([\.0-9]+GiB) , of <span class="large-video-size">\1</span> ,g' |\
+	sed -r 's,^([┌│└].*)$,<span class="monospace">\1</span>,g'
 }
 
 function url_for_identifier() {
@@ -67,6 +68,11 @@ span.error {
 
 span.download {
 	font-weight: bold;
+}
+
+span.monospace {
+	font-size: 12px;
+	font-family: monospace;
 }
 
 span.large-video-size {
