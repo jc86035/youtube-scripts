@@ -68,17 +68,17 @@ pre {
 	margin: 0 0 1em 0;
 }
 
+.monospace {
+	font-size: 12px;
+	font-family: monospace;
+}
+
 span.error {
 	color: #dd0000;
 }
 
 span.download {
 	font-weight: bold;
-}
-
-span.monospace {
-	font-size: 12px;
-	font-family: monospace;
 }
 
 span.large-video-size {
@@ -124,6 +124,13 @@ for i in scale8 scale9 scale10 scale11 finhdd1; do
 done
 count=$(pgrep -f '\.youtube-dl-wrapped' | wc -l)
 echo "$(hostname)\t$count"
+
+echo "</pre>
+
+<h1>df -hT</h1>
+<pre class=\"monospace\">"
+
+df -hT
 
 echo "</pre>
 
