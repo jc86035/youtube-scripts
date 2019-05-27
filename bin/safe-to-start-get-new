@@ -7,7 +7,7 @@ set -eu
 
 max=5
 if [[ $HOSTNAME = "finhdd1" ]]; then
-	max=31
+	max=34
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=10
 fi
