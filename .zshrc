@@ -20,6 +20,10 @@ youtube_dl_args=(\
 	--ignore-errors
 )
 
+youtube-dl() {
+	PYTHONPATH=$HOME/youtube-dl -m youtube_dl "$@"
+}
+
 tube-with-mtime() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
 	YOUTUBE_DL_RM_ALL_BEFORE_DL=1 \
