@@ -7,11 +7,13 @@ set -eu
 
 max=5
 if [[ $(hostname) = "finhdd1" ]]; then
-	max=27
+	max=31
+elif [[ $(hostname) = "finssd1" ]]; then
+	max=10
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
 [[ $(pgrep 'node'       | wc -l) -lt $max ]]
 
-kb_disk_free=$(/run/current-system/sw/bin/df / | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
+kb_disk_free=$(/run/current-system/sw/bin/df /home/at/YouTube | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
 [[ $kb_disk_free -gt 20000000 ]]
