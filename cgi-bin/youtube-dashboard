@@ -119,7 +119,7 @@ echo "
 
 <pre>"
 for i in scale8 scale9 scale10 scale11 finssd1 finhdd1; do
-	count=$(pgrep -f "^ssh -p 904 at@$i " | wc -l)
+	count=$(pgrep --count -f "^ssh -p 904 at@$i " || true)
 	echo "$i\t$count"
 done
 
