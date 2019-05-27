@@ -6,9 +6,9 @@ set -eu
 # non-0.
 
 max=5
-if [[ $(hostname) = "finhdd1" ]]; then
+if [[ $HOSTNAME = "finhdd1" ]]; then
 	max=31
-elif [[ $(hostname) = "finssd1" ]]; then
+elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=10
 fi
 
