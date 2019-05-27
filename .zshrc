@@ -21,18 +21,18 @@ youtube_dl_args=(\
 )
 
 youtube-dl() {
-	PYTHONPATH=$HOME/youtube-dl -m youtube_dl "$@"
+	PYTHONPATH=$HOME/youtube-dl low-pri python3 -m youtube_dl "$@"
 }
 
 tube-with-mtime() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
 	YOUTUBE_DL_RM_ALL_BEFORE_DL=1 \
 	YOUTUBE_DL_TERASTASH=1 \
-	low-pri youtube-dl --exec archive-youtube-download "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
+	youtube-dl --exec archive-youtube-download "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
 }
 tube-with-mtime-no-ts() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
-	low-pri youtube-dl "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
+	youtube-dl "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
 }
 alias tube='tube-with-mtime --no-mtime'
 
