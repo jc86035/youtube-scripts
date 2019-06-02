@@ -21,7 +21,7 @@ youtube_dl_args=(\
 )
 
 youtube-dl() {
-	PYTHONPATH=$HOME/youtube-dl low-pri python3 -m youtube_dl "$@"
+	PYTHONPATH=$HOME/youtube-dl nice -n 5 python3 -m youtube_dl "$@"
 }
 
 tube-with-mtime() {
