@@ -7,9 +7,9 @@ set -eu
 
 max=5
 if [[ $HOSTNAME = "finhdd1" ]]; then
-	max=34
+	max=36
 elif [[ $HOSTNAME = "finssd1" ]]; then
-	max=10
+	max=12
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
