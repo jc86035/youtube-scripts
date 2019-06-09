@@ -9,6 +9,5 @@ for i in $(ts ls -j ~/YouTube | shuf); do
 		continue
 	fi
 	echo "Starting $i"
-	grab-youtube-channel "$i" || true
-	wait-for-youtube-task "$i"
+	{ grab-youtube-channel "$i" && wait-for-youtube-task "$i"; } || true
 done
