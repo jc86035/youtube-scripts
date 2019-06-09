@@ -16,4 +16,4 @@ fi
 [[ $(pgrep 'node'       | wc -l) -lt $max ]]
 
 kb_disk_free=$(/run/current-system/sw/bin/df /home/at/YouTube | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
-[[ $kb_disk_free -gt 20000000 ]]
+[[ $kb_disk_free -gt 19000000 ]]
