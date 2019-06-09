@@ -22,6 +22,9 @@ hosts=(scale8 scale9 scale10 scale11 finssd1 finhdd1)
 # (@f) splits on newlines: https://unix.stackexchange.com/questions/29724
 hosts=("${(@f)$(echo "$hosts[@]" | sed -r 's/ /\n/g' | shuf)}")
 
+# Built-in sleep to avoid scheduling too many processes on a machine
+sleep 1
+
 # The name of the session is a lock that prevents multiple downloaders from working
 # on the same folder.
 tmux new -s "YouTube-$i" -x 512 -y 30 -d "
