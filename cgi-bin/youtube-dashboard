@@ -53,6 +53,10 @@ h1 {
 	margin: 0 0 0 7px;
 }
 
+h1.monitored::after {
+	content: \" (monitored)\"
+}
+
 a {
 	color: black;
 	text-decoration: none;
@@ -93,12 +97,24 @@ span.large-video-size {
 $(echo $sessions | wc -l) downloaders running. Press F5 to refresh 🤷️<br><br>
 "
 
+typeset -A monitored_by_script
+monitored_by_script=()
+for i in $(ps w | grep -P -o 'wait-for-youtube-[t]ask .*' | cut -d ' ' -f 2); do
+	monitored_by_script[$i]=1
+done
+
 tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
 while read line; do
 	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
 	identifier=${session_name/YouTube-/}
 	url=$(url_for_identifier "$identifier")
-	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>)</h1>"
+	class=""
+	set +u
+	if [[ $monitored_by_script[$identifier] == "1" ]]; then
+		class="monitored"
+	fi
+	set -u
+	echo "<h1 class=\"$class\"><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>)</h1>"
 	echo "<pre>"
 	tmux capture-pane -p -t "$session_name" | html_escape | linkify_log
 	echo "</pre>"
