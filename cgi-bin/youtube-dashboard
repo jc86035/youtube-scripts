@@ -46,6 +46,7 @@ body {
 	background-color: #ddd;
 	color: black;
 	font-family: system-ui, sans-serif;
+	padding: 24px;
 }
 
 h1 {
