@@ -80,7 +80,7 @@ pre.task {
 }
 
 .monospace {
-	font-size: 12px;
+	font-size: 10pt;
 	font-family: monospace;
 }
 
@@ -149,10 +149,17 @@ done
 
 echo "</pre>
 
-<h1>df -hT</h1>
+<h1>$HOST df -hT</h1>
 <pre class=\"monospace\">"
 
 df -hT
+
+echo "</pre>
+
+<h1>$HOST du -d1 ~/YouTube | tail</h1>
+<pre class=\"monospace\">"
+
+du --block-size=\'1 -d1 ~/YouTube | sort -n | tail
 
 echo "</pre>
 
