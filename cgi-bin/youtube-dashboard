@@ -68,6 +68,11 @@ pre {
 	margin: 0 0 1em 0;
 }
 
+pre.task {
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
 .monospace {
 	font-size: 12px;
 	font-family: monospace;
@@ -111,7 +116,7 @@ while read line; do
 	fi
 	set -u
 	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>) ($monitored)</h1>"
-	echo "<pre>"
+	echo "<pre class=\"task\">"
 	tmux capture-pane -p -t "$session_name" | html_escape | linkify_log
 	echo "</pre>"
 done
