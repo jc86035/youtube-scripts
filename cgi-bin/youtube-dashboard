@@ -149,5 +149,11 @@ df -hT
 
 echo "</pre>
 
+<script>
+for (const p of document.querySelectorAll('pre.task')) {
+	p.scrollTop = p.scrollHeight;
+}
+</script>
+
 </html>
 "
