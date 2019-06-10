@@ -4,8 +4,13 @@
 
 set -eu -o pipefail
 
-# https://stackoverflow.com/a/12873723
+function strip_trailing_empty_lines() {
+	# https://stackoverflow.com/questions/7359527
+	sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba'
+}
+
 function html_escape() {
+	# https://stackoverflow.com/a/12873723
     sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g'
 }
 
@@ -118,7 +123,8 @@ while read line; do
 	set -u
 	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>) ($monitored)</h1>"
 	echo "<pre class=\"task\">"
-	tmux capture-pane -p -t "$session_name" | html_escape | linkify_log
+	# Session may already be gone by the time we try to capture it
+	{ tmux capture-pane -p -t "$session_name" || echo -n "" } | strip_trailing_empty_lines | html_escape | linkify_log
 	echo "</pre>"
 done
 
