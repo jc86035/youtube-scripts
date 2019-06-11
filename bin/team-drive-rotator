@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -eu -o pipefail
+
+teamdrives_file=$1
+
+count_exceeded() {
+	for i in $(tmux list-sessions -F '#S' | grep -P '^YouTube-'); do
+		tmux capture-pane -p -t "$i" || true
+	done | (fgrep -c 'The file limit for this shared drive has been exceeded' || true)
+}
+
+get_current_parent() {
+	cat ~/.config/terastash/chunk-stores.json | grep -P '"parents": \[".{19}"\]' | cut -d '"' -f 4 | uniq
+}
+
+rotate_team_drive() {
+	current_parent=$(get_current_parent)
+	next_parent=$(fgrep -A1 "$current_parent" "$teamdrives_file" | tail -n 1 | cut -f 2)
+	set-chunk-stores-parent "$next_parent"
+}
+
+while true; do
+	if [[ $(count_exceeded) -ge 5 ]]; then
+		echo "[$(date)] Rotating team drive..."
+		rotate_team_drive
+		# Wait before checking again to avoid interpreting old "has been exceeded" lines
+		echo "[$(date)] Waiting 6 hours before checking again..."
+		sleep 6h
+	fi
+	sleep 1m
+done
