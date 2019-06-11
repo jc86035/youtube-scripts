@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Used to change the team drive into which new files are uploaded.
+
+set -eu
+
+parent=$1
+if [[ ${#parent} -ne 19 ]]; then
+	>&2 echo "Wrong length, expected 19 got ${#parent} in $parent"
+	exit 1
+fi
+
+sed -i -r "s/\"parents\": \[\".{19}\"\]/\"parents\": [\"$parent\"]/g" ~/.config/terastash/chunk-stores.json
+
+for i in scale8 scale9 scale10 scale11 finhdd1; do
+	rsync -a ~/.config/terastash/chunk-stores.json at@$i:.config/terastash/
+done
