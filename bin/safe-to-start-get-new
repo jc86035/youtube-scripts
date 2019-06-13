@@ -10,6 +10,8 @@ if [[ $HOSTNAME = "finhdd1" ]]; then
 	max=30
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=37
+elif [[ $HOSTNAME = "oneams1" ]]; then
+	max=9
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
