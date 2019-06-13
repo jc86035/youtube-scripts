@@ -2,7 +2,9 @@
 
 echo "Content-Type: text/html; charset=utf-8
 
-<pre>"
+<pre>
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+"
 
 for i in scale8 scale9 scale10 scale11 scale12 scale13 finssd1 finhdd1; do
 	echo $i
