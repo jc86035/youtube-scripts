@@ -1,0 +1,10 @@
+#!/run/current-system/sw/bin/zsh
+
+echo "Content-Type: text/html; charset=utf-8
+
+<pre>"
+
+for i in scale8 scale9 scale10 scale11 scale12 scale13 finssd1 finhdd1; do
+	echo $i
+	ssh at@$i "ps auxw | grep -P '[y]outube_dl'"
+done
