@@ -149,6 +149,13 @@ done
 
 echo "</pre>
 
+<h1>$HOST free -m</h1>
+<pre class=\"monospace\">"
+
+free -m
+
+echo "</pre>
+
 <h1>$HOST df -hT</h1>
 <pre class=\"monospace\">"
 
