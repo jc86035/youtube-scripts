@@ -6,14 +6,17 @@ set -eu
 # non-0.
 
 max=5
+min_disk=19000000
 if [[ $HOSTNAME = "finhdd1" ]]; then
 	max=30
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=37
+elif [[ $HOSTNAME = "scale14" ]]; then
+	min_disk=12000000
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
 [[ $(pgrep 'node'       | wc -l) -lt $max ]]
 
 kb_disk_free=$(/run/current-system/sw/bin/df /home/at/YouTube | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
-[[ $kb_disk_free -gt 19000000 ]]
+[[ $kb_disk_free -gt $min_disk ]]
