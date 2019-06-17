@@ -128,7 +128,9 @@ while read line; do
 	echo "</pre>"
 done
 
+set +e
 scripts=$(ps w | grep -P '[b]in/grab-.*-youtube' | sed -r 's/^ +//' | sed -r 's/ +/\t/g' | sort -k +5)
+set -e
 
 echo "
 <h1>$(echo $scripts | wc -l) scripts running</h1>
