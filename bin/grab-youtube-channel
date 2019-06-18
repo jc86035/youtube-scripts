@@ -17,7 +17,7 @@ logdir=/var/www/html/logs/dl/$i
 mkdir -p $logdir
 date=$(date --iso-8601=seconds | cut -d '+' -f 1 | sed 's/:/_/g')
 
-hosts=(scale8 scale9 scale10 scale11 scale12 scale13 scale14 finssd1 finhdd1)
+hosts=(scale8 scale9 scale10 scale11 scale12 scale13 scale14 parhdd1 finssd1 finhdd1)
 # Shuffle the hosts
 # (@f) splits on newlines: https://unix.stackexchange.com/questions/29724
 hosts=("${(@f)$(echo "$hosts[@]" | sed -r 's/ /\n/g' | shuf)}")
