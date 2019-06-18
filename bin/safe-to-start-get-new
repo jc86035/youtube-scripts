@@ -5,13 +5,14 @@ set -eu
 # Return exit code 0 is safe to start on a scaleway, else
 # non-0.
 
-max=5
+max=7
 min_disk=19000000
 if [[ $HOSTNAME = "finhdd1" ]]; then
 	max=30
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=37
 elif [[ $HOSTNAME = "scale14" ]]; then
+	max=5
 	min_disk=12000000
 fi
 
