@@ -64,6 +64,10 @@ a {
 	text-decoration: none;
 }
 
+a.look-like-a-hyperlink {
+	color: #0000EE;
+}
+
 pre {
 	font-size: 13px;
 	font-family: system-ui, sans-serif;
@@ -132,11 +136,15 @@ set +e
 scripts=$(ps w | grep -P '[b]in/grab-.*-youtube' | sed -r 's/^ +//' | sed -r 's/ +/\t/g' | sort -k +5)
 set -e
 
+function linkify_lists() {
+	sed -r 's,/home/at/lists/([-_0-9a-zA-Z]+),<a href="/lists/\1" class="look-like-a-hyperlink">/home/at/lists/\1</a>,g'
+}
+
 echo "
 <h1>$(echo $scripts | wc -l) scripts running</h1>
 
 <pre>
-$(echo $scripts | html_escape)
+$(echo $scripts | html_escape | linkify_lists)
 </pre>
 "
 
