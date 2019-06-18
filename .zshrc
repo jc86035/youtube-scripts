@@ -22,7 +22,8 @@ youtube_dl_args=(\
 )
 
 youtube-dl() {
-	PYTHONPATH=$HOME/youtube-dl nice -n 5 python3 -m youtube_dl "$@"
+	# use choom to make the OOM killer more likely to target youtube-dl
+	PYTHONPATH=$HOME/youtube-dl nice -n 5 choom -n +800 -- python3 -m youtube_dl "$@"
 }
 
 tube-with-mtime() {
