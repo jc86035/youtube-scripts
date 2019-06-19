@@ -118,7 +118,7 @@ span.large-video-size {
 </style>
 </head>
 
-$(echo $sessions | wc -l) downloaders running. Press F5 to refresh 🤷️<br><br>
+$(echo $sessions | wc -l) downloaders running. Press F5 to <a class=\"blue\" href=\"/yt\">refresh</a> 🤷️<br><br>
 "
 
 typeset -A monitored_by_script
