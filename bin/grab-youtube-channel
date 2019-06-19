@@ -29,7 +29,7 @@ sleep 1
 
 # The name of the session is a lock that prevents multiple downloaders from working
 # on the same folder.
-tmux new -s "YouTube-$i" -x 512 -y 30 -d "
+tmux new -s "YouTube-$i" -x 512 -y 40 -d "
 (
 ssh -p 904 at@$hosts[1]         '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' ||
 ssh -p 904 at@$hosts[2]         '. ~/.zshrc && safe-to-start-get-new && mkdir -p ~/YouTube/$i && cd ~/YouTube/$i && MAX_VIDEOS=$MAX_VIDEOS get-new; code=\$?; rm -rf ~/YouTube/$i; exit \$code' ||
