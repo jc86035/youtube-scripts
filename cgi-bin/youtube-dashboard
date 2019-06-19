@@ -69,14 +69,22 @@ a.look-like-a-hyperlink {
 	color: #0000EE;
 }
 
-pre {
-	font-size: 13px;
-	font-family: system-ui, sans-serif;
-	background-color: #fff;
-	width: calc(100% - 12px);
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+pre, table {
 	display: inline-block;
+	width: calc(100% - 12px);
 	padding: 5px;
 	margin: 0 0 1em 0;
+	background-color: #fff;
+}
+
+pre, td {
+	font-size: 13px;
+	font-family: system-ui, sans-serif;
 }
 
 pre.task {
@@ -141,12 +149,16 @@ function linkify_lists() {
 	sed -r 's,/home/at/lists/([-_0-9a-zA-Z]+),<a href="/lists/\1" class="look-like-a-hyperlink">/home/at/lists/\1</a>,g'
 }
 
+function tabs_to_table() {
+	sed -r -e 's,^,<tr><td>,' -e 's,$,</td></tr>,' -e 's,\t,</td><td>,g'
+}
+
 echo "
 <h1>$(echo $scripts | wc -l) scripts running</h1>
 
-<pre>
-$(echo $scripts | html_escape | linkify_lists)
-</pre>
+<table>
+$(echo $scripts | html_escape | linkify_lists | tabs_to_table)
+</table>
 "
 
 echo "
