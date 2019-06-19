@@ -43,7 +43,9 @@ rpick() {
 		echo -e -n "$i\t"; { { tmux capture-pane -p -t "$i" | tr '\n' ' ' } || true }
 		echo
 	done | fzf --exact --reverse | cut -f 1)
-	tmux attach -t "$session"
+	if [[ "$session" != "" ]]; then
+		tmux attach -t "$session"
+	fi
 }
 
 get-new() {
