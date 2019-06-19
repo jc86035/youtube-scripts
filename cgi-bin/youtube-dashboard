@@ -87,6 +87,10 @@ pre, td {
 	font-family: system-ui, sans-serif;
 }
 
+td {
+	padding: 0 1em 0 0;
+}
+
 pre.task {
 	height: 200px;
 	overflow-y: scroll;
