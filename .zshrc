@@ -38,6 +38,14 @@ tube-with-mtime-no-ts() {
 }
 alias tube='tube-with-mtime --no-mtime'
 
+rpick() {
+	session=$(for i in $(tmux list-sessions -F '#S' | grep -v -P '^YouTube-'); do
+		echo -e -n "$i\t"; { { tmux capture-pane -p -t "$i" | tr '\n' ' ' } || true }
+		echo
+	done | fzf --exact --reverse | cut -f 1)
+	tmux attach -t "$session"
+}
+
 get-new() {
 	if [[ $PWD = $HOME/YouTube ]]; then
 		echo "Refusing to run in ~/YouTube, did you want to cd to a subdirectory first?"
