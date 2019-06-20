@@ -132,16 +132,20 @@ while read line; do
 	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
 	identifier=${session_name/YouTube-/}
 	url=$(url_for_identifier "$identifier")
+	# Session may already be gone by the time we try to capture it
+	contents=$(tmux capture-pane -p -t "$session_name" || echo -n "")
+	set +e
+	x_of_y=$(echo -E "$contents" | grep -P "^\[download\] Downloading video ([0-9]+ of [0-9]+)" | tail -n 1 | grep -o -P "[0-9]+ of [0-9]+")
+	set -e
 	monitored="unmonitored"
 	set +u
 	if [[ $monitored_by_script[$identifier] == "1" ]]; then
 		monitored="monitored"
 	fi
 	set -u
-	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>) ($monitored)</h1>"
+	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>) ($monitored) ($x_of_y)</h1>"
 	echo "<pre class=\"task\">"
-	# Session may already be gone by the time we try to capture it
-	{ tmux capture-pane -p -t "$session_name" || echo -n "" } | strip_trailing_empty_lines | html_escape | linkify_log
+	echo -E "$contents" | strip_trailing_empty_lines | html_escape | linkify_log
 	echo "</pre>"
 done
 
