@@ -175,7 +175,7 @@ while read line; do
 		<h1>
 			<a class=\"identifier\" name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a>
 			<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>,
-			<span class=\"toggle-area\" onclick=\"toggle('download-$identifier')\">
+			<span class=\"toggle-area\" onclick=\"toggle(event, 'download-$identifier')\" ondblclick=\"noop(event)\">
 				<span class=\"monitored\">$monitored</span>
 				<span class=\"x-of\">$x_of</span>
 				<span class=\"of-y\">of $of_y</span>
@@ -245,13 +245,23 @@ for (const p of document.querySelectorAll('pre.task')) {
 	p.scrollTop = p.scrollHeight;
 }
 
-function toggle(id) {
+function noop(event) {
+	console.log('Stopping', event, 'from doing anything');
+	event.preventDefault();
+	event.stopPropagation();
+}
+
+function toggle(event, id) {
 	const elem = document.getElementById(id);
 	const visible = elem.style.display !== 'none';
 	if (visible) {
 		elem.style.display = 'none';
 	} else {
 		elem.style.display = 'inline-block';
+	}
+
+	if (event.detail > 1) {
+		noop(event);
 	}
 }
 
