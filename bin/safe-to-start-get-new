@@ -12,7 +12,7 @@ if [[ $HOSTNAME = "finhdd1" ]]; then
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=37
 elif [[ $HOSTNAME = "parhdd1" ]]; then
-	max=15
+	max=19
 elif [[ $HOSTNAME = "scale14" ]]; then
 	# small scaleway with 20GB disk
 	max=5
