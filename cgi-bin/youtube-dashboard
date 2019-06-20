@@ -136,10 +136,10 @@ span.large-video-size {
 }
 
 </style>
-</head>
+</head>"
 
-$(echo $sessions | wc -l) downloaders running. Press F5 to <a class=\"blue\" href=\"/yt\">refresh</a> 🤷️. <kbd>n</kbd> and <kbd>a</kbd> keys hide/show task logs<br><br>
-"
+echo $sessions | wc -l
+echo "downloaders running. Press F5 to <a class=\"blue\" href=\"/yt\">refresh</a> 🤷️. <kbd>n</kbd> and <kbd>a</kbd> keys hide/show task logs<br><br>"
 
 typeset -A monitored_by_script
 monitored_by_script=()
@@ -191,13 +191,13 @@ function tabs_to_table() {
 	sed -r -e 's,^,<tr><td>,' -e 's,$,</td></tr>,' -e 's,\t,</td><td>,g'
 }
 
-echo "
-<h1>$(echo $scripts | wc -l) scripts running</h1>
+echo "<h1>"
+echo $scripts | wc -l
+echo "scripts running</h1>
 
-<table>
-$(echo $scripts | html_escape | linkify_lists | tabs_to_table)
-</table>
-"
+<table>"
+echo $scripts | html_escape | linkify_lists | tabs_to_table
+echo "</table>"
 
 echo "
 <h1>Task distribution</h1>
