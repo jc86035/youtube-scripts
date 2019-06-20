@@ -28,11 +28,11 @@ function linkify_log() {
 
 function url_for_identifier() {
 	if [[ $1 == UC?????????????????????? ]]; then
-		echo "https://www.youtube.com/channel/$1/videos"
+		url="https://www.youtube.com/channel/$1/videos"
 	elif [[ $1 == PL* ]]; then
-		echo "https://www.youtube.com/playlist?list=$1"
+		url="https://www.youtube.com/playlist?list=$1"
 	else
-		echo "https://www.youtube.com/user/$1/videos"
+		url="https://www.youtube.com/user/$1/videos"
 	fi
 }
 
@@ -149,15 +149,15 @@ done
 
 tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
 while read line; do
-	session_name=$(echo -E "$line" | cut -d ' ' -f 2)
+	session_name=${line[(ws: :)2]}
 	identifier=${session_name/YouTube-/}
-	url=$(url_for_identifier "$identifier")
+	url_for_identifier "$identifier" # sets $url
 	# Session may already be gone by the time we try to capture it
 	contents=$(tmux capture-pane -p -t "$session_name" || echo -n "")
 	set +e
-	x_of_y=$(echo -E "$contents" | grep -P "^\[download\] Downloading video ([0-9]+ of [0-9]+)" | tail -n 1)
-	x_of=$(echo $x_of_y | grep -o -P "[0-9]+ of" | cut -d " " -f 1)
-	of_y=$(echo $x_of_y | grep -o -P "of [0-9]+" | cut -d " " -f 2)
+	x_of_y=$(echo -E "$contents" | grep -o -P "([0-9]+ of [0-9]+)$" | tail -n 1)
+	x_of=${x_of_y[(ws: :)1]}
+	of_y=${x_of_y[(ws: :)3]}
 	set -e
 	monitored="unmonitored"
 	set +u
