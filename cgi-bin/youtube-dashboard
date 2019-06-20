@@ -161,7 +161,7 @@ while read line; do
 	# Session may already be gone by the time we try to capture it
 	contents=$(tmux capture-pane -p -t "$session_name" || echo -n "")
 	set +e
-	x_of_y=$(echo -E "$contents" | grep -o -P "([0-9]+ of [0-9]+)$" | tail -n 1)
+	x_of_y=$({ echo -E "$contents" | grep -o -P "([0-9]+ of [0-9]+)$" | tail -n 1 } || echo -n "? of ?")
 	x_of=${x_of_y[(ws: :)1]}
 	of_y=${x_of_y[(ws: :)3]}
 	set -e
