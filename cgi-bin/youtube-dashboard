@@ -69,6 +69,22 @@ a.blue {
 	color: #0000EE;
 }
 
+.identifier {
+	display: inline-block;
+	min-width: 270px;
+}
+
+.monitored {
+	display: inline-block;
+	min-width: 120px;
+}
+
+.x-of {
+	display: inline-block;
+	min-width: 60px;
+	text-align: right;
+}
+
 table {
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -135,7 +151,9 @@ while read line; do
 	# Session may already be gone by the time we try to capture it
 	contents=$(tmux capture-pane -p -t "$session_name" || echo -n "")
 	set +e
-	x_of_y=$(echo -E "$contents" | grep -P "^\[download\] Downloading video ([0-9]+ of [0-9]+)" | tail -n 1 | grep -o -P "[0-9]+ of [0-9]+")
+	x_of_y=$(echo -E "$contents" | grep -P "^\[download\] Downloading video ([0-9]+ of [0-9]+)" | tail -n 1)
+	x_of=$(echo $x_of_y | grep -o -P "[0-9]+ of" | cut -d " " -f 1)
+	of_y=$(echo $x_of_y | grep -o -P "of [0-9]+" | cut -d " " -f 2)
 	set -e
 	monitored="unmonitored"
 	set +u
@@ -143,7 +161,16 @@ while read line; do
 		monitored="monitored"
 	fi
 	set -u
-	echo "<h1><a name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a> (<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>) ($monitored) ($x_of_y)</h1>"
+	echo "
+		<h1>
+			<a class=\"identifier\" name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a>
+			<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>
+			<span class=\"monitored\">$monitored</span>
+			<span class=\"x-of\">$x_of</span>
+			of
+			$of_y
+		</h1>
+	"
 	echo "<pre class=\"task\">"
 	echo -E "$contents" | strip_trailing_empty_lines | html_escape | linkify_log
 	echo "</pre>"
