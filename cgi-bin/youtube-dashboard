@@ -168,7 +168,7 @@ while read line; do
 	echo "
 		<h1>
 			<a class=\"identifier\" name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a>
-			<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>
+			<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>,
 			<span class=\"monitored\" onclick=\"toggle('download-$identifier')\">$monitored</span>
 			<span class=\"x-of\" onclick=\"toggle('download-$identifier')\">$x_of</span>
 			<span class=\"of-y\" onclick=\"toggle('download-$identifier')\">of $of_y</span>
