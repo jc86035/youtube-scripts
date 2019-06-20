@@ -86,7 +86,13 @@ a.blue {
 }
 
 .toggle-area {
+	display: inline-block;
+	min-width: 500px;
 	cursor: pointer;
+}
+
+.toggle-area:hover {
+	background-color: #eee;
 }
 
 table {
