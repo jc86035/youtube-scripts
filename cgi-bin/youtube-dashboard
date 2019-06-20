@@ -65,7 +65,7 @@ a {
 	text-decoration: none;
 }
 
-a.blue {
+a:hover, a.blue {
 	color: #0000EE;
 }
 
