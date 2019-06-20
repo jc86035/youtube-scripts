@@ -118,7 +118,7 @@ span.large-video-size {
 </style>
 </head>
 
-$(echo $sessions | wc -l) downloaders running. Press F5 to <a class=\"blue\" href=\"/yt\">refresh</a> 🤷️<br><br>
+$(echo $sessions | wc -l) downloaders running. Press F5 to <a class=\"blue\" href=\"/yt\">refresh</a> 🤷️. <kbd>n</kbd> and <kbd>a</kbd> keys hide/show task logs<br><br>
 "
 
 typeset -A monitored_by_script
@@ -205,6 +205,25 @@ echo "</pre>
 for (const p of document.querySelectorAll('pre.task')) {
 	p.scrollTop = p.scrollHeight;
 }
+
+document.onkeypress = function(ev) {
+	if(ev.ctrlKey || ev.altKey || ev.metaKey) {
+		return;
+	}
+	// Add code here before this check for keys that require shift
+	if (ev.shiftKey) {
+		return;
+	}
+	if (ev.which == 97) { // a
+		document.querySelectorAll('pre.task').forEach(function(el) {
+			el.style.display = 'inline-block';
+		});
+	} else if(ev.which == 110) { // n
+		document.querySelectorAll('pre.task').forEach(function(el) {
+			el.style.display = 'none';
+		});
+	}
+};
 </script>
 
 </html>
