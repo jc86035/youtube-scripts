@@ -85,7 +85,7 @@ a.blue {
 	text-align: right;
 }
 
-.monitored, .x-of, .of-y {
+.toggle-area {
 	cursor: pointer;
 }
 
@@ -169,9 +169,11 @@ while read line; do
 		<h1>
 			<a class=\"identifier\" name=\"$identifier\" href=\"$url\" target=\"_blank\">$identifier</a>
 			<a href=\"/logs/dl/$identifier/?C=M;O=D\" target=\"_blank\">logs</a>,
-			<span class=\"monitored\" onclick=\"toggle('download-$identifier')\">$monitored</span>
-			<span class=\"x-of\" onclick=\"toggle('download-$identifier')\">$x_of</span>
-			<span class=\"of-y\" onclick=\"toggle('download-$identifier')\">of $of_y</span>
+			<span class=\"toggle-area\" onclick=\"toggle('download-$identifier')\">
+				<span class=\"monitored\">$monitored</span>
+				<span class=\"x-of\">$x_of</span>
+				<span class=\"of-y\">of $of_y</span>
+			</span>
 		</h1>
 	"
 	echo "<pre class=\"task\" id=\"download-$identifier\">"
