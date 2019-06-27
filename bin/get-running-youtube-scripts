@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ps w | grep -P '[b]in/grab-.*-youtube'

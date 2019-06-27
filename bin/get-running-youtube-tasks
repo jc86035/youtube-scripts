@@ -1,0 +1,24 @@
+#!/run/current-system/sw/bin/zsh
+
+# Use zsh above because bash doesn't find the UTF-8 locales on NixOS which tmux needs
+
+set -eu -o pipefail
+
+typeset -A monitored_by_script
+monitored_by_script=()
+for i in $(ps w | grep -P -o 'wait-for-youtube-[t]ask .*' | cut -d ' ' -f 2); do
+	monitored_by_script[$i]=1
+done
+
+tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn |\
+while read line; do
+	session_name=${line[(ws: :)2]}
+	identifier=${session_name/YouTube-/}
+	monitored="unmonitored"
+	set +u
+	if [[ $monitored_by_script[$identifier] == "1" ]]; then
+		monitored="monitored"
+	fi
+	set -u
+	echo -e "$monitored\t$identifier"
+done
