@@ -8,11 +8,11 @@ set -eu
 max=8
 min_disk=19000000
 if [[ $HOSTNAME = "finhdd1" ]]; then
-	max=31
+	max=32
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=37
 elif [[ $HOSTNAME = "parhdd1" ]]; then
-	max=24
+	max=12
 elif [[ $HOSTNAME = "scale14" ]]; then
 	# small scaleway with 20GB disk
 	max=5
