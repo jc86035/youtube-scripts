@@ -71,7 +71,7 @@ a:hover, a.blue {
 
 .identifier {
 	display: inline-block;
-	min-width: 270px;
+	min-width: 300px;
 }
 
 .monitored {
