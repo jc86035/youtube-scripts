@@ -7,7 +7,7 @@ export TERASTASH_CASSANDRA_HOST=finssd1.wg
 youtube_dl_args=(\
 	--user-agent "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
 	--force-ipv4
-	--sleep-interval 0.33
+	--sleep-interval 0.2
 	--socket-timeout 20
 	-o "%(title)s-%(id)s.%(ext)s"
 	--continue
