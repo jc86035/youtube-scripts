@@ -8,7 +8,7 @@ set -eu
 max=8
 min_disk=19000000
 if [[ $HOSTNAME = "finhdd1" ]]; then
-	max=32
+	max=42
 elif [[ $HOSTNAME = "finssd1" ]]; then
 	max=44
 elif [[ $HOSTNAME = "parhdd1" ]]; then
