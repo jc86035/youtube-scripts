@@ -15,7 +15,7 @@ elif [[ $HOSTNAME = "parhdd1" ]]; then
 	max=12
 elif [[ $HOSTNAME = "parssd1" ]]; then
 	max=20
-elif [[ $HOSTNAME = "usassd1" ]]; then
+elif [[ $HOSTNAME = "usassd"* ]]; then
 	max=15
 fi
 
