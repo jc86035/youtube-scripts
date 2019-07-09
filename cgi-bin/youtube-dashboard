@@ -36,7 +36,9 @@ function url_for_identifier() {
 	fi
 }
 
+set +e
 sessions=$(tmux list-sessions -F '#{session_created} #S' | grep -P '^\d+ YouTube-' | sort -rn)
+set -e
 
 echo "Content-Type: text/html; charset=utf-8
 
