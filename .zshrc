@@ -26,6 +26,7 @@ youtube-dl() {
 }
 
 tube-with-mtime() {
+	echo "Running on $HOST"
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
 	YOUTUBE_DL_RM_ALL_BEFORE_DL=1 \
 	YOUTUBE_DL_TERASTASH=1 \
