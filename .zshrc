@@ -18,7 +18,6 @@ youtube_dl_args=(\
 	--all-subs
 	-f 'bestvideo[ext=webm]+bestaudio[ext=webm]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best'
 	--ignore-errors
-	--cookies $HOME/.config/youtube-dl/cookies.txt
 )
 
 youtube-dl() {
