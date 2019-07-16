@@ -19,9 +19,6 @@ elif [[ $HOSTNAME = "usassd"* ]]; then
 	max=15
 fi
 
-# try to survive YouTube anti-bot limits
-max=2
-
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
 [[ $(pgrep 'node'       | wc -l) -lt $max ]]
 
