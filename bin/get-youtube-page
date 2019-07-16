@@ -4,4 +4,4 @@ set -eu
 
 url=$1
 
-exec curl -sL --proxy-insecure --proxy "$(shuf -n 1 ~/.config/youtube-dl/proxies)" "$url"
+exec curl -sL --proxy-insecure --proxy "$(shuf -n 1 ~/.config/youtube-dl/proxies)" -- "$url"
