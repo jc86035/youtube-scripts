@@ -30,11 +30,11 @@ tube-with-mtime() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
 	YOUTUBE_DL_RM_ALL_BEFORE_DL=1 \
 	YOUTUBE_DL_TERASTASH=1 \
-	youtube-dl --exec archive-youtube-download "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
+	youtube-dl --proxy "$(shuf -n 1 ~/.config/youtube-dl/proxies)" --exec archive-youtube-download "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
 }
 tube-with-mtime-no-ts() {
 	YOUTUBE_DL_SKIP_LIVESTREAMS=1 \
-	youtube-dl "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
+	youtube-dl --proxy "$(shuf -n 1 ~/.config/youtube-dl/proxies)" "$youtube_dl_args[@]" --max-downloads=${MAX_VIDEOS:-200} "$@"
 }
 alias tube='tube-with-mtime --no-mtime'
 
@@ -69,11 +69,11 @@ get-new() {
 	# a country list; 14UBUyF16Nk says "This video is not available"
 	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
 	# are completely geoblocked and show "Downloading 0 videos"
-	COMPLAINT='DISABLED(your country|video is available in|video is not available|Downloading 0 videos)'
+	COMPLAINT='(your country|video is available in|video is not available|Downloading 0 videos)'
 	if grep -iqP "$COMPLAINT" "$temp_log"; then
 		echo
-		echo "Saw complaints about country, grabbing again through proxies..."
-		tube-with-mtime --proxy socks5://finssd1.wg:10000 "https://www.youtube.com/$type$user_or_chan_or_pl$suffix" # Canada (geolocated to US by YouTube)
+		echo "Saw complaints about country, grabbing again..."
+		tube-with-mtime "https://www.youtube.com/$type$user_or_chan_or_pl$suffix"
 	fi
 	# Even though we have UC?????????????????????? or PL* above, we might still
 	# have a UC* or PL* username instead, so try again as a user if needed.
