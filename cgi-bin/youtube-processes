@@ -8,5 +8,5 @@ USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 
 for i in scale8 scale9 scale10 scale11 scale12 scale13 parhdd1 parssd1 usassd1 usassd2 finssd1 finhdd1; do
 	echo $i
-	ssh at@$i "ps auxw | grep -P '[y]outube_dl'"
+	ssh at@$i "ps auxw | grep -P '[y]outube_dl'" | sed -r 's/ --proxy \S+ / /g'
 done
