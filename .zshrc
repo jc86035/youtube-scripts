@@ -69,7 +69,7 @@ get-new() {
 	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
 	# are completely geoblocked and show "Downloading 0 videos"
 	COMPLAINT='( bailing out\.\.\.|your country|video is available in|video is not available|Downloading 0 videos)'
-	for i in $(seq 4); do
+	for i in $(seq 3); do
 		if grep -iqP "$COMPLAINT" "$temp_log"; then
 			echo
 			echo "Saw some problem, grabbing again..."
