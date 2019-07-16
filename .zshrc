@@ -69,10 +69,10 @@ get-new() {
 	# a country list; 14UBUyF16Nk says "This video is not available"
 	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
 	# are completely geoblocked and show "Downloading 0 videos"
-	COMPLAINT='(your country|video is available in|video is not available|Downloading 0 videos)'
+	COMPLAINT='(Got a 429 response|your country|video is available in|video is not available|Downloading 0 videos)'
 	if grep -iqP "$COMPLAINT" "$temp_log"; then
 		echo
-		echo "Saw complaints about country, grabbing again..."
+		echo "Saw complaints about country or 429 response, grabbing again..."
 		tube-with-mtime "https://www.youtube.com/$type$user_or_chan_or_pl$suffix"
 	fi
 	# Even though we have UC?????????????????????? or PL* above, we might still
