@@ -18,7 +18,9 @@ elif [[ $HOSTNAME = "parhdd1" ]]; then
 elif [[ $HOSTNAME = "parssd1" ]]; then
 	max=24
 elif [[ $HOSTNAME = "usassd"* ]]; then
-	max=17
+	max=22
+elif [[ $HOSTNAME = "spassd"* ]]; then
+	max=22
 fi
 
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
