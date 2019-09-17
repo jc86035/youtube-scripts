@@ -47,6 +47,19 @@ rpick() {
 	fi
 }
 
+retry-tube-with-mtime() {
+	temp_log="$(mktemp)"
+	tube-with-mtime "$@" 2>&1 | tee "$temp_log"
+	COMPLAINT='( bailing out\.\.\.|your country|video is available in|video is not available|Downloading 0 videos)'
+	for i in $(seq 5); do
+		if grep -iqP "$COMPLAINT" "$temp_log"; then
+			echo
+			echo "Saw some problem, grabbing again..."
+			tube-with-mtime "$@" 2>&1 | tee "$temp_log"
+		fi
+	done
+}
+
 get-new() {
 	if [[ $PWD = $HOME/YouTube ]]; then
 		echo "Refusing to run in ~/YouTube, did you want to cd to a subdirectory first?"
