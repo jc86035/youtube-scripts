@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for i in $(tmux list-sessions -F '#S' | grep -P '^YouTube-'); do
+	{ tmux capture-pane -p -t "$i" || true } | grep -q '403 Auth Failed' && echo $i
+done
