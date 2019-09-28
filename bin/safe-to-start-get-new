@@ -26,5 +26,6 @@ fi
 [[ $(pgrep 'youtube-dl' | wc -l) -lt $max ]]
 [[ $(pgrep 'node'       | wc -l) -lt $max ]]
 
+mkdir -p /home/at/YouTube
 kb_disk_free=$(/run/current-system/sw/bin/df /home/at/YouTube | grep / | sed -r 's/ +/ /g' | cut -f 4 -d ' ')
 [[ $kb_disk_free -gt $min_disk ]]
