@@ -194,7 +194,7 @@ scripts=$(ps w | grep -P '[b]in/grab-.*-youtube' | sed -r -e 's/^ +//' -e 's/ +/
 set -e
 
 function linkify_lists() {
-	sed -r 's,/home/at/lists/([-_0-9a-zA-Z\.]+),<a href="/lists/\1" class="blue" target="_blank">/home/at/lists/\1</a>,g'
+	sed -r 's,/home/at/lists/([-_0-9a-zA-Z\./]+),<a href="/lists/\1" class="blue" target="_blank">/home/at/lists/\1</a>,g'
 }
 
 function tabs_to_table() {
