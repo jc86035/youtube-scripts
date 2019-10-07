@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec jq 'del(.url, .stitle, .player_url, .formats, .requested_formats, .http_headers, ._filename, .manifest_url, .preference, .fragments, .fragment_base_url, .annotations)'
