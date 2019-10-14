@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eu
+
+tmux ls | grep -q -P "^YouTube-" | wc -l
