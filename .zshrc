@@ -81,7 +81,7 @@ get-new() {
 	# a country list; 14UBUyF16Nk says "This video is not available"
 	# Channels like https://www.youtube.com/user/uverworldSMEJ/videos
 	# are completely geoblocked and show "Downloading 0 videos"
-	COMPLAINT='( bailing out\.\.\.|your country|video is available in|video is not available|Downloading 0 videos|node_modules/cassandra-driver)'
+	COMPLAINT='( bailing out\.\.\.|your country|video is available in|video is not available|Downloading 0 videos|node_modules/cassandra-driver|CalledProcessError)'
 	for i in $(seq 3); do
 		if grep -iqP "$COMPLAINT" "$temp_log"; then
 			echo
